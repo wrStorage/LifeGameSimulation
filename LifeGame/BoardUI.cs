@@ -11,8 +11,9 @@ namespace LifeGame
 {
     internal class BoardUI
     {
-        private readonly int offset = 20; 
-        public void InitializeBoardUI(Board gameState, Canvas canvas)
+        private readonly int offset = 20;
+
+        public void DrawBoardUI(Board gameState, Canvas canvas)
         {
             canvas.Children.Clear();
             for (int i = 0; i < gameState.GetBoardRows(); i++)
@@ -22,7 +23,6 @@ namespace LifeGame
                 for (int j = 0; j < gameState.GetBoardCols(); j++)
                 {
                     int yOffset = offset * j;
-
                     Rectangle rectangle = new();
                     rectangle.Width = 20;
                     rectangle.Height = 20;

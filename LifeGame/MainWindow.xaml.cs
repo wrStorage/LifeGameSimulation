@@ -23,12 +23,20 @@ namespace LifeGame
         public MainWindow()
         {
             InitializeComponent();
+            game.InitializeBoard();
+            gameUI.DrawBoardUI(game, LifeBoard);
         }
 
         private void OnRandomSeedButtonClicked(object sender, RoutedEventArgs e)
         {
-            game.InitializeBoard();
-            gameUI.InitializeBoardUI(game, LifeBoard);
+            game.PopulateBoard();
+            gameUI.DrawBoardUI(game, LifeBoard);
+        }
+
+        private void OnSeededRunTextBoxFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            textBox.Text = string.Empty;
         }
     }
 }

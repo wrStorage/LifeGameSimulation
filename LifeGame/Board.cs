@@ -16,6 +16,10 @@ namespace LifeGame
         public void InitializeBoard()
         {
             boardState = new int[boardRows, boardCols];
+        }
+        public void PopulateBoard()
+        {
+            boardState = new int[boardRows, boardCols];
             seed = Environment.TickCount;
             var rand = new Random(seed);
 
