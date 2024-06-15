@@ -17,11 +17,10 @@ namespace LifeGame
         {
             boardState = new int[boardRows, boardCols];
         }
-        public void PopulateBoard()
+        public void PopulateBoard(int seed)
         {
             boardState = new int[boardRows, boardCols];
-            seed = Environment.TickCount;
-            var rand = new Random(seed);
+            Random rand = new(seed);
 
             for (int i = 0; i < boardRows; i++)
             {

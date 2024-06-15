@@ -29,7 +29,9 @@ namespace LifeGame
 
         private void OnRandomSeedButtonClicked(object sender, RoutedEventArgs e)
         {
-            game.PopulateBoard();
+            int seed = Math.Abs(Environment.TickCount);
+            SeedTextBlock.Text = $"Seed: {seed}";
+            game.PopulateBoard(seed);
             gameUI.DrawBoardUI(game, LifeBoard);
         }
 
@@ -37,6 +39,27 @@ namespace LifeGame
         {
             TextBox textBox = (TextBox)sender;
             textBox.Text = string.Empty;
+        }
+
+        private void OnSeededButtonClicked(object sender, RoutedEventArgs e)
+        {
+            if (int.TryParse(SeedNumberTextBox.Text, out int numTest) == false)
+            {   
+                MessageBox.Show("Invalid Seed: Seed must be a number between 0-2147483647", "Invalid Seed", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            int seed = int.Parse(SeedNumberTextBox.Text);
+
+            if (seed <= 0) 
+            {
+                MessageBox.Show("Invalid Seed: Seed must be a positive number", "Invalid Seed", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            SeedTextBlock.Text = $"Seed: {seed}";
+            game.PopulateBoard(seed);
+            gameUI.DrawBoardUI(game, LifeBoard);
         }
     }
 }
