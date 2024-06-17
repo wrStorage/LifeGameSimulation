@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -27,11 +28,14 @@ namespace LifeGame
             gameUI.DrawBoardUI(game, LifeBoard);
         }
 
-        private void OnRandomSeedButtonClicked(object sender, RoutedEventArgs e)
+        private async void OnRandomSeedButtonClicked(object sender, RoutedEventArgs e)
         {
             int seed = Math.Abs(Environment.TickCount);
             SeedTextBlock.Text = $"Seed: {seed}";
             game.PopulateBoard(seed);
+            gameUI.DrawBoardUI(game, LifeBoard);
+            await Task.Delay(5000);
+            game.AdvanceOneGeneration();
             gameUI.DrawBoardUI(game, LifeBoard);
         }
 
@@ -41,7 +45,7 @@ namespace LifeGame
             textBox.Text = string.Empty;
         }
 
-        private void OnSeededButtonClicked(object sender, RoutedEventArgs e)
+        private async void OnSeededButtonClicked(object sender, RoutedEventArgs e)
         {
             if (int.TryParse(SeedNumberTextBox.Text, out int numTest) == false)
             {   
@@ -59,6 +63,9 @@ namespace LifeGame
 
             SeedTextBlock.Text = $"Seed: {seed}";
             game.PopulateBoard(seed);
+            gameUI.DrawBoardUI(game, LifeBoard);
+            await Task.Delay(5000);
+            game.AdvanceOneGeneration();
             gameUI.DrawBoardUI(game, LifeBoard);
         }
     }
