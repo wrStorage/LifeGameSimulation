@@ -1,19 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Timers;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace LifeGame
 {
@@ -21,14 +10,15 @@ namespace LifeGame
     {
         readonly Board game = new();
         readonly BoardUI gameUI = new();
-        private static System.Timers.Timer? timer;
+        readonly int generations = 60;
+        int currentGeneration = 0;
+        private static readonly System.Timers.Timer timer = new(200);
 
         public MainWindow()
         {
             InitializeComponent();
             game.InitializeBoard();
             gameUI.DrawBoardUI(game, LifeBoard);
-            timer = new System.Timers.Timer(200);
             timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
         }
 
@@ -39,6 +29,8 @@ namespace LifeGame
             SeedTextBlock.Text = $"Seed: {seed}";
             game.PopulateBoard(seed);
             gameUI.DrawBoardUI(game, LifeBoard);
+            currentGeneration = 0;
+            GenerationTextBlock.Text = $"Generation: {currentGeneration}";
             timer.Enabled = true;
         }
 
@@ -57,7 +49,6 @@ namespace LifeGame
             }
 
             int seed = int.Parse(SeedNumberTextBox.Text);
-
             if (seed <= 0) 
             {
                 MessageBox.Show("Invalid Seed: Seed must be a positive number", "Invalid Seed", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -68,17 +59,25 @@ namespace LifeGame
             SeedTextBlock.Text = $"Seed: {seed}";
             game.PopulateBoard(seed);
             gameUI.DrawBoardUI(game, LifeBoard);
+            currentGeneration = 0;
+            GenerationTextBlock.Text = $"Generation: {currentGeneration}";
             timer.Enabled = true;
         }
 
         private void OnTimedEvent(object sender, EventArgs e)
         {
+            if (currentGeneration == generations)
+            {
+                timer.Enabled = false;
+            }
             try
             {
                 Dispatcher.Invoke(() =>
                 {
                     game.AdvanceOneGeneration();
                     gameUI.DrawBoardUI(game, LifeBoard);
+                    currentGeneration++;
+                    GenerationTextBlock.Text = $"Generation: {currentGeneration}";
                 });
             }
             catch (TaskCanceledException)

@@ -20,10 +20,24 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Canvas Width="400" Height="600" Name="LifeBoard" Grid.RowSpan="3" Grid.ColumnSpan="1"/>
-        <Button Name="RandomSeedButton"  Grid.Row="2" Grid.Column="3" Width="150" Height="50" Click="OnRandomSeedButtonClicked">Start Random Seed</Button>
-        <Button Name="SeededButton" Grid.Row="3" Grid.Column="3" Width="150" Height="50" Click="OnSeededButtonClicked">Start Seeded Run</Button>
-        <TextBox Name="SeedNumberTextBox" Grid.Row="3" Grid.Column="2" Width="90" Height="25" MaxLength="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Right" VerticalAlignment="Center" GotFocus="OnSeededRunTextBoxFocus">Seed Number</TextBox>
-        <TextBlock Name="SeedTextBlock" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2">Seed:</TextBlock>
-        <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2">Generation:</TextBlock>
+        <StackPanel Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Margin" Value="30, 10, 0, 10"/>
+                </Style>
+            </StackPanel.Resources>
+            <TextBlock Name="SeedTextBlock"  VerticalAlignment="Center">Seed:</TextBlock>
+            <TextBlock Name="GenerationTextBlock"  VerticalAlignment="Center">Generation:</TextBlock>
+        </StackPanel>
+        <TextBox Name="SeedNumberTextBox" Grid.Row="3" Grid.Column="2" VerticalAlignment="Top" Width="90" Height="25" MaxLength="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" GotFocus="OnSeededRunTextBoxFocus">Seed Number</TextBox>
+        <StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Margin" Value="20"/>
+                </Style>
+            </StackPanel.Resources>
+            <Button Name="SeededButton" Width="150" Height="50" Click="OnSeededButtonClicked">Start Seeded Run</Button>
+            <Button Name="RandomSeedButton" Width="150" Height="50" Click="OnRandomSeedButtonClicked">Start Random Seed</Button>
+        </StackPanel>
     </Grid>
 </Window>

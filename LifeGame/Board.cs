@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LifeGame
 {
@@ -38,11 +34,11 @@ namespace LifeGame
                 {
                     int adjacentLiveCells = CheckAdjacentCells(i, j);
 
-                    if (boardState[i, j] == 1 && (adjacentLiveCells > 1 && adjacentLiveCells < 4))
+                    if (boardState?[i, j] == 1 && (adjacentLiveCells > 1 && adjacentLiveCells < 4))
                     {
                         newBoardState[i, j] = 1;
                     }
-                    else if (boardState[i, j] == 0 && adjacentLiveCells == 3)
+                    else if (boardState?[i, j] == 0 && adjacentLiveCells == 3)
                     {
                         newBoardState[i, j] = 1;
                     }
