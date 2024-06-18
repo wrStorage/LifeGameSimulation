@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Timers;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -20,23 +21,25 @@ namespace LifeGame
     {
         readonly Board game = new();
         readonly BoardUI gameUI = new();
+        private static System.Timers.Timer? timer;
 
         public MainWindow()
         {
             InitializeComponent();
             game.InitializeBoard();
             gameUI.DrawBoardUI(game, LifeBoard);
+            timer = new System.Timers.Timer(200);
+            timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
         }
 
-        private async void OnRandomSeedButtonClicked(object sender, RoutedEventArgs e)
+        private void OnRandomSeedButtonClicked(object sender, RoutedEventArgs e)
         {
+            timer.Enabled = false;
             int seed = Math.Abs(Environment.TickCount);
             SeedTextBlock.Text = $"Seed: {seed}";
             game.PopulateBoard(seed);
             gameUI.DrawBoardUI(game, LifeBoard);
-            await Task.Delay(5000);
-            game.AdvanceOneGeneration();
-            gameUI.DrawBoardUI(game, LifeBoard);
+            timer.Enabled = true;
         }
 
         private void OnSeededRunTextBoxFocus(object sender, RoutedEventArgs e)
@@ -45,7 +48,7 @@ namespace LifeGame
             textBox.Text = string.Empty;
         }
 
-        private async void OnSeededButtonClicked(object sender, RoutedEventArgs e)
+        private void OnSeededButtonClicked(object sender, RoutedEventArgs e)
         {
             if (int.TryParse(SeedNumberTextBox.Text, out int numTest) == false)
             {   
@@ -61,12 +64,27 @@ namespace LifeGame
                 return;
             }
 
+            timer.Enabled = false;
             SeedTextBlock.Text = $"Seed: {seed}";
             game.PopulateBoard(seed);
             gameUI.DrawBoardUI(game, LifeBoard);
-            await Task.Delay(5000);
-            game.AdvanceOneGeneration();
-            gameUI.DrawBoardUI(game, LifeBoard);
+            timer.Enabled = true;
+        }
+
+        private void OnTimedEvent(object sender, EventArgs e)
+        {
+            try
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    game.AdvanceOneGeneration();
+                    gameUI.DrawBoardUI(game, LifeBoard);
+                });
+            }
+            catch (TaskCanceledException)
+            {
+                MessageBox.Show("Task canceled");
+            }
         }
     }
 }
