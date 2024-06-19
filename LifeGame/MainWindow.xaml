@@ -24,6 +24,7 @@
             <StackPanel.Resources>
                 <Style TargetType="{x:Type TextBlock}">
                     <Setter Property="Margin" Value="30, 10, 0, 10"/>
+                    <Setter Property="FontSize" Value="20"/>
                 </Style>
             </StackPanel.Resources>
             <TextBlock Name="SeedTextBlock"  VerticalAlignment="Center">Seed:</TextBlock>

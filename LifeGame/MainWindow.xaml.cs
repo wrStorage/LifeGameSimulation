@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Timers;
 
 namespace LifeGame
@@ -10,7 +9,7 @@ namespace LifeGame
     {
         readonly Board game = new();
         readonly BoardUI gameUI = new();
-        readonly int generations = 60;
+        readonly int generations = 99;
         int currentGeneration = 0;
         private static readonly System.Timers.Timer timer = new(200);
 
@@ -36,8 +35,7 @@ namespace LifeGame
 
         private void OnSeededRunTextBoxFocus(object sender, RoutedEventArgs e)
         {
-            TextBox textBox = (TextBox)sender;
-            textBox.Text = string.Empty;
+            SeedNumberTextBox.Text = string.Empty;
         }
 
         private void OnSeededButtonClicked(object sender, RoutedEventArgs e)
